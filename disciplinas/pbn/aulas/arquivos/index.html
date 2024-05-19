@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <title>Index</title>
+  <title>index</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -28,6 +28,70 @@
       vertical-align: middle;
     }
     .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/black.css" id="theme">
 </head>
@@ -42,23 +106,112 @@ class="title-slide slide level1">
 <h1>Manipulação de Arquivos em C</h1>
 
 </section>
-<section id="introdução" class="slide level2">
-<h2>Introdução</h2>
-<p>Nesta apresentação, vamos explorar os conceitos básicos de
-manipulação de arquivos em C.</p>
+<section id="tipos-arquivos" class="slide level2">
+<h2>Tipos arquivos</h2>
+<p>Existem dois tipos de arquivos manipuláveis</p>
+<ul>
+<li><strong>Arquivos texto</strong>
+<ul>
+<li>O conteúdo é legível com editor de textos simples</li>
+<li>Requer a conversão do dado lido
+<ul>
+<li>De string para o tipo destino</li>
+</ul></li>
+</ul></li>
+<li><strong>Arquivos binários</strong>
+<ul>
+<li>O conteúdo é “confuso”, por vezes ilegível</li>
+<li>Dado lido é mapeado para o tipo destino</li>
+</ul></li>
+</ul>
 </section>
-<section id="funções-básicas" class="slide level2">
-<h2>Funções Básicas</h2>
-<h3 id="fopen">fopen()</h3>
+<section id="biblioteca-necessária" class="slide level2">
+<h2>Biblioteca necessária</h2>
+<ul>
+<li>Biblioteca <a href="https://en.cppreference.com/w/c/io">stdio.h</a>
+<ul>
+<li>Fornece o seguinte conjunto de funções</li>
+</ul></li>
+</ul>
+<div
+style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
+<table>
+<thead>
+<tr class="header">
+<th><em>Função</em></th>
+<th><em>Descrição</em></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>fopen()</td>
+<td>Cria um novo arquivo ou abre um existente</td>
+</tr>
+<tr class="even">
+<td>fclose()</td>
+<td>Fecha um arquivo</td>
+</tr>
+<tr class="odd">
+<td>getc()</td>
+<td>Lê um caracter de um arquivo</td>
+</tr>
+<tr class="even">
+<td>putc()</td>
+<td>Escreve um caracter em um arquivo</td>
+</tr>
+<tr class="odd">
+<td>fscanf()</td>
+<td>Lê um conjunto de dados de um arquivo</td>
+</tr>
+<tr class="even">
+<td>fprintf()</td>
+<td>Escreve um conjunto de dados em um arquivo</td>
+</tr>
+<tr class="odd">
+<td>etc</td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="comandos-comuns" class="slide level2">
+<h2>Comandos comuns</h2>
+<h3 id="abertura-de-um-arquivo">Abertura de um arquivo</h3>
+<ul>
+<li>Comando <em>fopen()</em>
 <ul>
 <li>Abre um arquivo</li>
 <li>Retorna um ponteiro para o arquivo</li>
 </ul>
-<h3 id="fclose">fclose()</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="dt">FILE</span> <span class="op">*</span>filePointer <span class="op">=</span> fopen<span class="op">(</span><span class="st">&quot;nomeDoArquivo.extensao&quot;</span><span class="op">,</span><span class="st">&quot;modo de operacao&quot;</span><span class="op">);</span></span></code></pre></div>
+<ul>
+<li>nome do arquivo
+<ul>
+<li>caminho relativo ou completo até o arquivo</li>
+</ul></li>
+<li>modo de operação
+<ul>
+<li>depende do tipo de arquivo</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="comandos-comuns-1" class="slide level2">
+<h2>Comandos comuns</h2>
+<h3 id="fechamento-de-um-arquivo">Fechamento de um arquivo</h3>
+<ul>
+<li>Fechamento de fclose()
 <ul>
 <li>Fecha um arquivo aberto</li>
 <li>Libera recursos associados ao arquivo</li>
 </ul>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  fclose<span class="op">(</span>filePointer<span class="op">);</span></span></code></pre></div></li>
+</ul>
+</section>
+<section class="slide level2">
+
 <h3 id="fprintf-e-fscanf">fprintf() e fscanf()</h3>
 <ul>
 <li>Leitura e escrita formatada em arquivos</li>
@@ -76,40 +229,52 @@ manipulação de arquivos em C.</p>
 <h2>Exemplo de Código</h2>
 <p>Vamos ver um exemplo simples de como abrir, escrever e ler um arquivo
 em C.</p>
-<p>```c #include &lt;stdio.h&gt;</p>
-<p>int main() { FILE *arquivo; char texto[] = “Olá, mundo!”; char
-buffer[100];</p>
-<pre><code>// Abre o arquivo para escrita
-arquivo = fopen(&quot;exemplo.txt&quot;, &quot;w&quot;);
-if (arquivo == NULL) {
-    printf(&quot;Erro ao abrir o arquivo.\n&quot;);
-    return 1;
-}
-
-// Escreve no arquivo
-fprintf(arquivo, &quot;%s\n&quot;, texto);
-
-// Fecha o arquivo
-fclose(arquivo);
-
-// Abre o arquivo para leitura
-arquivo = fopen(&quot;exemplo.txt&quot;, &quot;r&quot;);
-if (arquivo == NULL) {
-    printf(&quot;Erro ao abrir o arquivo.\n&quot;);
-    return 1;
-}
-
-// Lê do arquivo
-fscanf(arquivo, &quot;%s&quot;, buffer);
-
-// Imprime o conteúdo lido
-printf(&quot;Conteúdo do arquivo: %s\n&quot;, buffer);
-
-// Fecha o arquivo
-fclose(arquivo);
-
-return 0;</code></pre>
-<p>}</p>
+<div
+style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">FILE</span> <span class="op">*</span>arquivo<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> texto<span class="op">[]</span> <span class="op">=</span> <span class="st">&quot;Olá, mundo!&quot;</span><span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> buffer<span class="op">[</span><span class="dv">100</span><span class="op">];</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Abre o arquivo para escrita</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    arquivo <span class="op">=</span> fopen<span class="op">(</span><span class="st">&quot;exemplo.txt&quot;</span><span class="op">,</span> <span class="st">&quot;w&quot;</span><span class="op">);</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>arquivo <span class="op">==</span> NULL<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Erro ao abrir o arquivo.</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Escreve no arquivo</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    fprintf<span class="op">(</span>arquivo<span class="op">,</span> <span class="st">&quot;</span><span class="sc">%s\n</span><span class="st">&quot;</span><span class="op">,</span> texto<span class="op">);</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Fecha o arquivo</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    fclose<span class="op">(</span>arquivo<span class="op">);</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Abre o arquivo para leitura</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    arquivo <span class="op">=</span> fopen<span class="op">(</span><span class="st">&quot;exemplo.txt&quot;</span><span class="op">,</span> <span class="st">&quot;r&quot;</span><span class="op">);</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>arquivo <span class="op">==</span> NULL<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Erro ao abrir o arquivo.</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Lê do arquivo</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    fscanf<span class="op">(</span>arquivo<span class="op">,</span> <span class="st">&quot;</span><span class="sc">%s</span><span class="st">&quot;</span><span class="op">,</span> buffer<span class="op">);</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Imprime o conteúdo lido</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;Conteúdo do arquivo: </span><span class="sc">%s\n</span><span class="st">&quot;</span><span class="op">,</span> buffer<span class="op">);</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Fecha o arquivo</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    fclose<span class="op">(</span>arquivo<span class="op">);</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</div>
+<a href="./recursos/01_codigoBase.c">
+<p style="font-size:0.5em">
+Código do exemplo
+</p>
+<p></a></p>
 </section></section>
     </div>
   </div>

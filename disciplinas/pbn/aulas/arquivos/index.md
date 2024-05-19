@@ -2,23 +2,68 @@
 
 ---
 
-## Introdução
+## Tipos arquivos
 
-Nesta apresentação, vamos explorar os conceitos básicos de manipulação de arquivos em C.
+Existem dois tipos de arquivos manipuláveis
+
+- **Arquivos texto**
+  - O conteúdo é legível com editor de textos simples
+  - Requer a conversão do dado lido
+    - De string para o tipo destino
+
+- **Arquivos binários**
+  - O conteúdo é "confuso", por vezes ilegível
+  - Dado lido é mapeado para o tipo destino
 
 ---
 
-## Funções Básicas
+## Biblioteca necessária
 
-### fopen()
+- Biblioteca  <a href="https://en.cppreference.com/w/c/io">stdio.h</a>
+  - Fornece o seguinte conjunto de funções
 
-- Abre um arquivo
-- Retorna um ponteiro para o arquivo
+<div style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
+| *Função* | *Descrição* |
+| - | - |
+| fopen() | Cria um novo arquivo ou abre um existente |
+| fclose() | Fecha um arquivo |
+| getc() | Lê um caracter de um arquivo |
+| putc() | Escreve um caracter em um arquivo |
+| fscanf() | Lê um conjunto de dados de um arquivo |
+| fprintf() | Escreve um conjunto de dados em um arquivo |
+| etc | ... |
+</div>
 
-### fclose()
+---
 
-- Fecha um arquivo aberto
-- Libera recursos associados ao arquivo
+## Comandos comuns
+
+### Abertura de um arquivo
+- Comando *fopen()*
+  - Abre um arquivo
+  - Retorna um ponteiro para o arquivo
+  
+  ```c
+    FILE *filePointer = fopen("nomeDoArquivo.extensao","modo de operacao");
+  ```
+  - nome do arquivo
+    - caminho relativo ou completo até o arquivo
+  - modo de operação
+    - depende do tipo de arquivo  
+
+---
+
+## Comandos comuns
+
+### Fechamento de um arquivo
+- Fechamento de fclose()
+  - Fecha um arquivo aberto
+  - Libera recursos associados ao arquivo
+  ```c
+    fclose(filePointer);
+  ```
+
+---
 
 ### fprintf() e fscanf()
 
@@ -38,6 +83,7 @@ Nesta apresentação, vamos explorar os conceitos básicos de manipulação de a
 
 Vamos ver um exemplo simples de como abrir, escrever e ler um arquivo em C.
 
+<div style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
 ```c
 #include <stdio.h>
 
@@ -77,3 +123,7 @@ int main() {
 
     return 0;
 }
+```
+</div>
+
+<a href="./recursos/01_codigoBase.c"><p style="font-size:0.5em">Código do exemplo</p></a>
